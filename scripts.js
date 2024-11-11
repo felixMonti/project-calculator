@@ -29,6 +29,11 @@ function updateDisplay() {
   
 updateDisplay();
 
+//the function has three parts
+//1.- it loops through each button element in the button nodelist
+//2.- it adds an event listener for the click action on each button
+//3.- identifies the button type by their class and calls the respective function
+
 function clickButton() {
     for(let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function() {
@@ -57,3 +62,100 @@ function clickButton() {
 }
 clickButton();
 
+//the function has two parts
+//1.- when there is no operator selected we got 3 options
+//  first operator is null, we are entering the first operand
+//  displayValue = 0 the display is overwritten by the operand
+//  displayValue = first operand, we hit equals so we are starting a new calculation reseting the displayValue to the new operand
+//2.- operator is selected
+//  if firs operator is not null we are working on secondOperand
+//  if displayValue equals firtsOperand this starts secondOperand by reseting display
+
+function inputOperand(operand) {
+    if(firstOperator === null) {
+        if(displayValue === '0' || displayValue === 0) {
+            displayValue = operand;
+        } else if(displayValue === firstOperand) {
+            displayValue = operand;
+        } else {
+            displayValue += operand;
+        }
+    } else {
+        if(displayValue === firstOperand) {
+            displayValue = operand;
+        } else {
+            displayValue += operand;
+        }
+    }
+}
+
+
+function inputOperator(operator) {
+    if(firstOperator != null && secondOperator === null) {
+        secondOperator = operator;
+        secondOperand = displayValue;
+        result = operate(Number(firstOperand), Number(secondOperand), firstOperator);
+        displayValue = roundAccurately(result, 15).toString();
+        firstOperand = displayValue;
+        result = null;
+    } else if(firstOperator != null && secondOperator != null) {
+        secondOperand = displayValue;
+        result = operate(Number(firstOperand), Number(secondOperand), secondOperator);
+        secondOperator = operator;
+        displayValue = roundAccurately(result, 15).toString();
+        firstOperand = displayValue;
+        result = null;
+    } else {
+        firstOperator = operator;
+        firstOperand = displayValue;
+    }
+}
+
+function inputEquals() {
+    if(firstOperator === null) {
+        displayValue = displayValue;
+    } else if(secondOperator != null) {
+        secondOperand = displayValue;
+        result = operate(Number(firstOperand), Number(secondOperand), secondOperator);
+        displayValue = result === 'lmao' ? 'lmao' : roundAccurately(result, 15).toString();
+        firstOperand = displayValue;
+        secondOperand = null;
+        firstOperator = null;
+        secondOperator = null;
+        result = null;
+    } else {
+        secondOperand = displayValue;
+        result = operate(Number(firstOperand), Number(secondOperand), firstOperator);
+        displayValue = result === 'lmao' ? 'lmao' : roundAccurately(result, 15).toString();
+        firstOperand = displayValue;
+        secondOperand = null;
+        firstOperator = null;
+        secondOperator = null;
+        result = null;
+    }
+}
+
+function inputDecimal(dot) {
+    if(displayValue === firstOperand || displayValue === secondOperand) {
+        displayValue = '0' + dot;
+    } else if(!displayValue.includes(dot)) {
+        displayValue += dot;
+    } 
+}
+
+function inputPercent(num) {
+    displayValue = (num/100).toString();
+}
+
+function inputSign(num) {
+    displayValue = (num * -1).toString();
+}
+
+function clearDisplay() {
+    displayValue = '0';
+    firstOperand = null;
+    secondOperand = null;
+    firstOperator = null;
+    secondOperator = null;
+    result = null;
+}
