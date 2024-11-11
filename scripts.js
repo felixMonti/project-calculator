@@ -56,9 +56,12 @@ function clickButton() {
             } else if(buttons[i].classList.contains('sign')) {
                 inputSign(displayValue);
                 updateDisplay();
-            } else if(buttons[i].classList.contains('clear'))
+            } else if (buttons[i].classList.contains('clear')) {
                 clearDisplay();
                 updateDisplay();
+            } else if (buttons[i].classList.contains('backspace')) {
+                inputBackspace();
+            }
         });
     }
 }
@@ -161,6 +164,18 @@ function clearDisplay() {
     secondOperator = null;
     result = null;
 }
+
+function inputBackspace() {
+    if (displayValue.length > 1) {
+        displayValue = displayValue.slice(0, -1);  // Remove the last character
+    } else {
+        displayValue = '0';  // Reset to "0" if there's only one character left
+    }
+    updateDisplay();  // Update the display to show the new value
+}
+
+
+
 
 function operate(x, y, op) {
     if(op === '+') {

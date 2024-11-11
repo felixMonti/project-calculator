@@ -48,9 +48,6 @@ button {
     color: black;
 }
 
-#zero {
-    grid-column: span 2;
-}
 
 .operator {
     background-color: #2fbe8f;
@@ -68,19 +65,20 @@ button {
     background-color: #36d8a2;
 }
 
-.clear, .sign, .percent{
+.clear, .backspace, .percent{
     background-color: rgb(40, 196, 196);
 }
 
-.clear:active, .sign:active, .percent:active{
+.clear:active, .backspace:active, .percent:active{
     background-color: rgb(49, 238, 238);
 }
 
-.operand, .decimal{
+.operand, .decimal, .sign{
     background-color: aquamarine;
 }
 
-.operand:active, .decimal:active{
+.operand:active, .decimal:active, .sign:active{
     background-color: rgb(184, 255, 231);
 }
+
 
