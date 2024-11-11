@@ -68,3 +68,19 @@ button {
     background-color: #36d8a2;
 }
 
+.clear, .sign, .percent{
+    background-color: rgb(40, 196, 196);
+}
+
+.clear:active, .sign:active, .percent:active{
+    background-color: rgb(49, 238, 238);
+}
+
+.operand, .decimal{
+    background-color: aquamarine;
+}
+
+.operand:active, .decimal:active{
+    background-color: rgb(184, 255, 231);
+}
+
