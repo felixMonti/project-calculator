@@ -1,5 +1,3 @@
-
-
 //variables initialized
 
 let displayValue = '0';
@@ -8,6 +6,8 @@ let secondOperand = null;
 let firstOperator = null;
 let secondOperator = null;
 let result = null;
+let scientificMode = false;
+
 const buttons = document.querySelectorAll('button');
 
 //event listener allows to use keyboard keys and simulate clicks
@@ -31,6 +31,15 @@ function updateDisplay() {
   
 updateDisplay();
 
+function toggleScientificMode() {
+    scientificMode = !scientificMode;
+    const scientificButtons = document.querySelector('.scientific-buttons');
+    if (scientificMode) {
+        scientificButtons.style.display = 'block';
+    } else {
+        scientificButtons.style.display = 'none';
+    }
+}
 //the function has three parts
 //1.- it loops through each button element in the button nodelist
 //2.- it adds an event listener for the click action on each button
@@ -61,6 +70,8 @@ function clickButton() {
                 updateDisplay();
             } else if (buttons[i].classList.contains('backspace')) {
                 inputBackspace();
+            } else if (buttons[i].classList.contains('scientific-toggle')) {
+                toggleScientificMode();  // Toggle scientific mode
             }
         });
     }
@@ -96,23 +107,51 @@ function inputOperand(operand) {
 
 
 function inputOperator(operator) {
-    if(firstOperator != null && secondOperator === null) {
-        secondOperator = operator;
-        secondOperand = displayValue;
-        result = operate(Number(firstOperand), Number(secondOperand), firstOperator);
-        displayValue = roundAccurately(result, 15).toString();
-        firstOperand = displayValue;
-        result = null;
-    } else if(firstOperator != null && secondOperator != null) {
-        secondOperand = displayValue;
-        result = operate(Number(firstOperand), Number(secondOperand), secondOperator);
-        secondOperator = operator;
-        displayValue = roundAccurately(result, 15).toString();
-        firstOperand = displayValue;
-        result = null;
+    if (scientificMode) {
+        // scientific operations
+        if (operator === "sqrt") {
+            displayValue = roundAccurately(Math.sqrt(Number(displayValue)), 15).toString();
+            firstOperand = displayValue;
+        } else if (operator === "^2") {
+            displayValue = roundAccurately(Math.pow(Number(displayValue), 2), 15).toString();
+            firstOperand = displayValue;
+        } else if (operator === "sin") {
+            displayValue = roundAccurately(Math.sin(Number(displayValue) * Math.PI / 180), 15).toString();
+            firstOperand = displayValue;
+        } else if (operator === "cos") {
+            displayValue = roundAccurately(Math.cos(Number(displayValue) * Math.PI / 180), 15).toString();
+            firstOperand = displayValue;
+        } else if (operator === "tan") {
+            displayValue = roundAccurately(Math.tan(Number(displayValue) * Math.PI / 180), 15).toString();
+            firstOperand = displayValue;
+        } else if (operator === "log") {
+            displayValue = roundAccurately(Math.log10(Number(displayValue)), 15).toString();
+            firstOperand = displayValue;
+        } else if (operator === "exp") {
+            displayValue = roundAccurately(Math.exp(Number(displayValue)), 15).toString();
+            firstOperand = displayValue;
+        }
+        updateDisplay();
     } else {
-        firstOperator = operator;
-        firstOperand = displayValue;
+        // regular operators
+        if (firstOperator != null && secondOperator === null) {
+            secondOperator = operator;
+            secondOperand = displayValue;
+            result = operate(Number(firstOperand), Number(secondOperand), firstOperator);
+            displayValue = roundAccurately(result, 15).toString();
+            firstOperand = displayValue;
+            result = null;
+        } else if (firstOperator != null && secondOperator != null) {
+            secondOperand = displayValue;
+            result = operate(Number(firstOperand), Number(secondOperand), secondOperator);
+            secondOperator = operator;
+            displayValue = roundAccurately(result, 15).toString();
+            firstOperand = displayValue;
+            result = null;
+        } else {
+            firstOperator = operator;
+            firstOperand = displayValue;
+        }
     }
 }
 
