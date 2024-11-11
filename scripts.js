@@ -13,8 +13,10 @@ const buttons = document.querySelectorAll('button');
 //event listener allows to use keyboard keys and simulate clicks
 
 window.addEventListener('keydown', function(e){
-    const key = document.querySelector(`button[data-key='${e.keyCode}']`);
-    key.click();
+    const key = document.querySelector(`button[data-key='${e.key}']`);
+    if (key){
+        key.click();
+    }
 });
 
 // update the display
@@ -117,7 +119,7 @@ function inputEquals() {
     } else if(secondOperator != null) {
         secondOperand = displayValue;
         result = operate(Number(firstOperand), Number(secondOperand), secondOperator);
-        displayValue = result === 'lmao' ? 'lmao' : roundAccurately(result, 15).toString();
+        displayValue = result === 'ERROR!' ? 'ERROR!' : roundAccurately(result, 15).toString();
         firstOperand = displayValue;
         secondOperand = null;
         firstOperator = null;
@@ -126,7 +128,7 @@ function inputEquals() {
     } else {
         secondOperand = displayValue;
         result = operate(Number(firstOperand), Number(secondOperand), firstOperator);
-        displayValue = result === 'lmao' ? 'lmao' : roundAccurately(result, 15).toString();
+        displayValue = result === 'ERROR!' ? 'ERROR!' : roundAccurately(result, 15).toString();
         firstOperand = displayValue;
         secondOperand = null;
         firstOperator = null;
@@ -158,4 +160,24 @@ function clearDisplay() {
     firstOperator = null;
     secondOperator = null;
     result = null;
+}
+
+function operate(x, y, op) {
+    if(op === '+') {
+        return x + y;
+    } else if(op === '-') {
+        return x - y;
+    } else if(op === '*') {
+        return x * y;
+    } else if(op === '/') {
+        if(y === 0) {
+            return 'ERROR!';
+        } else {
+        return x / y;
+        }
+    }
+}
+
+function roundAccurately(num, places) {
+    return parseFloat(Math.round(num + 'e' + places) + 'e-' + places);
 }
