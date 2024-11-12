@@ -89,3 +89,22 @@ button.scientific-toggle {
     font-size: 2.5em;
     padding: 10px 0;
 }
+
+/* Scientific buttons grid layout */
+.scientific-buttons {
+    grid-column: 1 / -1; /* Span all columns */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+}
+
+.scientific-buttons button {
+    background-color: 2fbe8f;
+    font-size: 2em;
+    margin: 0;
+    border-radius: 8px;
+}
+
+.scientific-buttons button:active {
+    background-color: rgb(184, 255, 231);
+}
